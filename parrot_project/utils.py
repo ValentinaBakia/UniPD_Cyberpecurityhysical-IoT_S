@@ -24,7 +24,7 @@ class ErrorStates(Enum):
     ERROR_PASSIVE = "PASSIVE"
     BUS_OFF = "BUS-OFF"
 
-# CAN node refers to the ECU entities (Attacker/Defender or Eve/Alice)
+# CAN node refers to the ECU entities (Attacker/Defender/Assistant)
 class CanNode:
     def __init__(self, name: str):
         self.name = name

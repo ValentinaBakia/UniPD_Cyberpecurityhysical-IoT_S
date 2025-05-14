@@ -63,16 +63,16 @@ class CanBus(CanBusBase):
         print(f"Plot saved to {output_file}")
 
     def __send_attack(self):
-        self.log("sends spoofed frame", self.attacker)
+        self.log("[Attacker] sends spoofed frame", self.attacker)
         self.schedule(0, self.__handle_collision)
         if self.attacker.state == ErrorStates.ACTIVE:
             self.schedule(ATTACKER_PERIOD_US, self.__send_attack)
 
     def __handle_collision(self):
         self.attacker.collide()
-        self.log("collision bit-error", self.attacker)
+        self.log("[Attacker] collision bit-error", self.attacker)
         self.defender.collide()
-        self.log("collision bit-error", self.defender)
+        self.log("[Defender] collision bit-error", self.defender)
         if self.attacker.state == ErrorStates.ACTIVE:
             self.schedule(GAP_US, self.__handle_collision)
         else:
@@ -80,24 +80,24 @@ class CanBus(CanBusBase):
 
     def __recover_defender(self):
         self.defender.succeed()
-        self.log("recovers send", self.defender)
+        self.log("[Defender] recovers send", self.defender)
         if self.defender.state != ErrorStates.ACTIVE:
             self.schedule(GAP_US, self.__recover_defender)
         else:
-            self.log("back ACTIVE", self.defender)
+            self.log("[Defender] back ACTIVE", self.defender)
             self.schedule(0, self.__collide_passive)
 
     def __collide_passive(self):
         self.attacker.collide()
-        self.log("passive-flag collision", self.attacker)
+        self.log("[Attacker] passive-flag collision", self.attacker)
         if self.attacker.state != ErrorStates.BUS_OFF:
             next_gap = min(ASSISTANT_GAP_US, GAP_US)
             self.schedule(next_gap, self.__collide_passive)
         else:
-            self.log("bus-off reached", self.attacker)
+            self.log("[Attacker] bus-off reached", self.attacker)
 
     def __assistant_send(self):
-        self.log("sends AD-message", self.assistant)
+        self.log("[Assistant] sends AD-message", self.assistant)
         if self.attacker.state != ErrorStates.BUS_OFF:
             self.schedule(ASSISTANT_GAP_US, self.__assistant_send)
 

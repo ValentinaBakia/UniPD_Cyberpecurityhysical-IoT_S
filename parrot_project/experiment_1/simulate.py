@@ -16,7 +16,7 @@ and TEC history is recorded and plotted at the end.
 
 From this experiment we can understand that the 2 ECUs tested have 0% bus off state
 That is because the Defender Alice follows the 31 us gap required by the software
-but Eve doesn't because she is a malicious attackerm thats why Alice cant make it to put her unit toBUS-OFF
+but Eve doesn't because she is a malicious attacker thats why Alice cant make it to put her unit toBUS-OFF
 """
 import heapq
 import matplotlib.pyplot as plt
